@@ -1,0 +1,33 @@
+MySQL:
+  Host: 10.241.117.74
+  Port: 3306
+  username: mysql_remoter
+  password: 123456
+
+Benz:
+  Host: 10.241.25.242
+  Port: 21111
+
+
+Interest:
+  Stopword: data/benz_stop_words_ch+en.txt
+  CateFeatures: data/cate_full_fea
+  CateMap: data/cate_map_full
+  QunMap: data/qun_cate_map_detail
+  QunInfo: data/qun_info
+  WeiboUserGroup: data/weibo_daren
+  QunNetworkId: 1
+  RenRenQunMap: data/renren_cate_map_detail
+  RenRenQunInfo: data/renren_qun_info
+  RenRenNetworkId: 2
+  RenRenUserGroup: data/renren_user_xiaozu_total
+  CateDf: data/cate_df
+
+ActiveMQ:
+  hostname: 127.0.0.1 
+  port: 61613
+  fetch_input_queue: /queue/fetch.in 
+  fetch_out_queue: /queue/fetch.tx.out
+
+MembaseAddrs:
+  - "10.241.117.74:11211" #svr1
