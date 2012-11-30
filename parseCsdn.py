@@ -15,53 +15,6 @@ def parse_dynamic(t):
 
     return r
 
-def parse_edu(t):
-    r = []
-    sel = []
-    sel1 = t.cssselect('div[class="position  first education vevent vcard"]')
-    for li in sel1:
-        sel.append(li)
-    
-    sel2 = t.cssselect('div[class="position  education vevent vcard"]')
-    for li in sel2:
-        sel.append(li)
-    
-    for li in sel:
-        item = {}
-        find = li.cssselect('h3[class="summary fn org"]')
-        if find:
-            item['school'] = find[0].text_content().strip().replace('\n',' ')
-            
-        find = li.cssselect('span[class="degree"]')
-        if find:
-            item['degree'] = find[0].text_content().strip().replace('\n',' ')
-            
-        find = li.cssselect('span[class="major"]')
-        if find:
-            item['major'] = find[0].text_content().strip().replace('\n',' ')
-            
-        find = li.cssselect('abbr[class="dtstart"]')
-        if find:
-            item['dtstart'] = find[0].text_content().strip().replace('\n',' ')
-        find = li.cssselect('abbr[class="dtstamp"]')
-        if find:
-            item['dtend'] = find[0].text_content().strip().replace('\n',' ')
-            
-        find = li.cssselect('abbr[class="dtend"]')
-        if find:
-            item['dtend'] = find[0].text_content().strip().replace('\n',' ')
-        
-        find = li.cssselect('p[class=" desc details-education"]')
-        if find:
-            item['desc'] = find[0].text_content().strip().replace('\n',' ')
-
-        find = li.cssselect('p[class="desc details-education"]')
-        if find:
-            item['activities'] = find[0].text_content().strip().replace('\n',' ')
-        
-        r.append(item)
-    return r
-    
 def parse_profile(t):
     item = {}
 
@@ -72,8 +25,8 @@ def parse_profile(t):
             item['name'] = name[0].text_content().strip().replace('\n',' ')
 
         infos = per_info[0].cssselect('dd')
-	print "len===",len(infos)
-	if infos:
+	    print "len===",len(infos)
+	    if infos:
             comma = '：'
 	    for info in infos:
 		value = info.text_content()
@@ -92,12 +45,16 @@ def parse_profile(t):
     if status:
         sta_lines = status[0].cssselect('dd')
         if sta_lines and len(sta_lines) == 3:
+            spans = sta_lines[0].cssselect('span')
+            if spans and len(spans) == 2:
+                item['score_pro'] = spans[1].text_content().strip().replace('\n',' ')
+
             spans = sta_lines[1].cssselect('span')
             if spans and len(spans) == 3:
-                item['score'] = spans[0].text_content().strip().replace('\n',' ')
-                item['rank'] = spans[1].text_content().strip().replace('\n',' ')
-                item['visit'] = spans[2].text_content().strip().replace('\n',' ')
-
+                item['score_blog'] = spans[0].text_content().strip().replace('\n',' ')
+                item['rank_blog'] = spans[1].text_content().strip().replace('\n',' ')
+                item['visit_blog'] = spans[2].text_content().strip().replace('\n',' ')
+            
     return item
 
 def parse_dir(t):
@@ -122,8 +79,6 @@ def parse(page):
     info = parse_profile(t)
     dynamic = parse_dynamic(t)
     info['dynamic'] = dynamic
-    edu = parse_edu(t)
-    info['edu'] = edu
     return info
 
 if __name__=='__main__':
