@@ -18,6 +18,9 @@ def parse_profile(t):
             if key.find("生日") != -1:
                 item['birthday'] = info.getnext().text_content().strip().replace('\n',' ')
     
+            if key.find("居住地") != -1:
+                item['resident'] = info.getnext().text_content().strip().replace('\n',' ')
+    
             if key.find("简介") != -1:
                 item['intro'] = info.getnext().text_content().strip().replace('\n',' ')
     
@@ -39,6 +42,12 @@ def parse_profile(t):
             if key.find("初中") != -1:
                 item['juniorschool'] = info.getnext().text_content().strip().replace('\n',' ')
     
+    portrait = t.cssselect('div[class="portrait"]')
+    if portrait:
+        img = portrait[0].cssselect('img')
+        if img:
+            item['img'] = img[0].get("src").strip().replace('\n',' ')
+
     jobs_name = t.cssselect('span[class="profile-corp-name"]')
     jobs_exp = t.cssselect('span[class="profile-corp-exp"]')
     if jobs_name and jobs_exp:
